@@ -1,2 +1,33 @@
 ---
 # tasks file for roles/terraria-server
+
+- name: terraria server required packages  (apt)
+  apt: name={{ item }} state=present
+  with_items:
+      - mono-complete
+      - unzip
+  tags: terraria-server
+  
+- name: download and tshock
+  get_url: >
+      url="{{ tshock_download }}"
+      dest="/tmp"
+      mode="0644"
+  sudo: no
+  tags: terraria-server
+
+- name: create home folder for tshock
+  file: >
+       path="/tmp/zzz-tshock"
+       state="directory"
+       mode="0755"
+  sudo: no
+  tags: terraria-server
+  
+- name: unzip tshock
+  unarchive: >
+      src="/tmp/{{ tshock_filename }}"
+      dest="/tmp/zzz-tshock/"
+      copy="no"
+  sudo: no
+  tags: terraria-server
