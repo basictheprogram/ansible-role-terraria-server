@@ -1,0 +1,13 @@
+# Starts the server with a given player count
+MAX_PLAYERS=16
+
+# Starts the server and changes the world path to a given path
+WORLD_PATH="/var/tshock/My Games/Terraria/Worlds"
+
+# Starts the server and immediately loads a given world file
+WORLD="${WORLD_PATH}/TickyTown.wld"
+
+# Forces the server to continue running, and not hibernating when 
+# no players are on.  This results in time passing, grass growing, 
+# and cpu running.
+FORCE_UPDATE="yes"
