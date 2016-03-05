@@ -21,7 +21,7 @@ A list of other roles hosted on Galaxy should go here, plus any details in regar
 ```
 - hosts: servers
   roles:
-    - { role: terraria-server, sudo: yes }
+    - { role: terraria-server, become: yes }
 ```
 
 ## License ##
