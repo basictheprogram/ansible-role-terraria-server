@@ -1,84 +1,86 @@
 ---
 # tasks file for roles/terraria-server
 
-- name: terraria server required packages  (apt)
-  apt: >
-      name="{{ item }}" 
-      state="present"
+- name: terraria server required packages (apt)
+  apt:
+    name: "{{ item }}"
+    state: "present"
   with_items:
-      - mono-complete
-      - unzip
+    - mono-complete
+    - unzip
   tags: terraria-server
 
 - name: create terraria server user
-  user: >
-      name="tshock"
-      comment="Terraria Server"
-      createhome="no"
-      home="/var/tshock"
-      state="present"
-      shell="/bin/true"
-      system="yes"
+  user:
+    name: "tshock"
+    comment: "Terraria Server"
+    createhome: "no"
+    home: "/var/tshock"
+    state: "present"
+    shell: "/bin/true"
+    system: "yes"
   tags: terraria-server
 
 - name: fix permissions on tshock user home directory
-  file: >
-       path="/var/tshock"
-       state="directory"
-       owner="tshock"
-       group="tshock"
-       mode="2755"
+  file:
+    path: "/var/tshock"
+    state: "directory"
+    owner: "tshock"
+    group: "tshock"
+    mode: "2755"
   tags: terraria-server
   
 - name: download tshock
-  get_url: >
-      url="{{ tshock_download }}"
-      dest="/tmp"
-      mode="0644"
+  get_url:
+    url: "{{ tshock_download }}"
+    dest: "/tmp"
+    mode: "0644"
   become: no
   tags: terraria-server
 
 - name: create tshock server home
-  file: >
-       path="/usr/local/games/tshock"
-       state="directory"
-       owner="tshock"
-       group="tshock"
-       mode="2755"
+  file:
+    path: "/usr/local/games/tshock"
+    state: "directory"
+    owner: "tshock"
+    group: "tshock"
+    mode: "2755"
   tags: terraria-server
     
 - name: unzip tshock
-  unarchive: >
-      src="/tmp/{{ tshock_filename }}"
-      dest="/usr/local/games/tshock/"
-      copy="no"
-      owner="tshock"
-      group="tshock"
+  unarchive:
+    src: "/tmp/{{ tshock_filename }}"
+    dest: "/usr/local/games/tshock/"
+    copy: "no"
+    owner: "tshock"
+    group: "tshock"
   tags: terraria-server
   
 - name: fix tshock file permissions
-  file: >
-      path="/usr/local/games/tshock/{{ item.src }}"
-      owner="{{ item.owner}}"
-      group="{{ item.group }}"
-      mode="{{ item.mode }}"
+  file:
+    path: "/usr/local/games/tshock/{{ item.src }}"
+    owner: "{{ item.owner}}"
+    group: "{{ item.group }}"
+    mode: "{{ item.mode }}"
   with_items:
-      - { src: 'Newtonsoft.Json.dll', owner: 'tshock', group: 'tshock', mode: '0644' }
-      - { src: 'ServerPlugins',       owner: 'tshock', group: 'tshock', mode: '2755' }
-      - { src: 'sqlite3.dll',         owner: 'tshock', group: 'tshock', mode: '0644' }
-      - { src: 'TerrariaServer.exe',  owner: 'tshock', group: 'tshock', mode: '0755' }
+    - { src: 'GeoIP.dat',           owner: 'tshock', group: 'tshock', mode: '0644' }
+    - { src: 'Newtonsoft.Json.dll', owner: 'tshock', group: 'tshock', mode: '0644' }
+    - { src: 'OTAPI.dll',           owner: 'tshock', group: 'tshock', mode: '0644' }
+    - { src: 'ServerPlugins',       owner: 'tshock', group: 'tshock', mode: '2755' }
+    - { src: 'TerrariaServer.exe',  owner: 'tshock', group: 'tshock', mode: '0755' }
+    - { src: 'sqlite3.dll',         owner: 'tshock', group: 'tshock', mode: '0644' }
   tags: terraria-server
 
 - name: fix tshock file permissions (sub-directories)
-  file: >
-      path="/usr/local/games/tshock/ServerPlugins/{{ item.src }}"
-      owner="{{ item.owner}}"
-      group="{{ item.group }}"
-      mode="{{ item.mode }}"
+  file:
+    path: "/usr/local/games/tshock/ServerPlugins/{{ item.src }}"
+    owner: "{{ item.owner}}"
+    group: "{{ item.group }}"
+    mode: "{{ item.mode }}"
   with_items:
-      - { src: 'BCrypt.Net.dll',       owner: 'tshock', group: 'tshock', mode: '0644' }
-      - { src: 'HttpServer.dll',       owner: 'tshock', group: 'tshock', mode: '0644' }
-      - { src: 'Mono.Data.Sqlite.dll', owner: 'tshock', group: 'tshock', mode: '0644' }
-      - { src: 'MySql.Data.dll',       owner: 'tshock', group: 'tshock', mode: '0644' }
-      - { src: 'TShockAPI.dll',        owner: 'tshock', group: 'tshock', mode: '0644' }
+    - { src: 'BCrypt.Net.dll',       owner: 'tshock', group: 'tshock', mode: '0644' }
+    - { src: 'HttpServer.dll',       owner: 'tshock', group: 'tshock', mode: '0644' }
+    - { src: 'Mono.Data.Sqlite.dll', owner: 'tshock', group: 'tshock', mode: '0644' }
+    - { src: 'MySql.Data.dll',       owner: 'tshock', group: 'tshock', mode: '0644' }
+    - { src: 'TShockAPI.dll',        owner: 'tshock', group: 'tshock', mode: '0644' }
   tags: terraria-server
