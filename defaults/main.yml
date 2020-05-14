@@ -1,2 +1,14 @@
 ---
 # defaults file for roles/terraria-server
+#
+terraria_server_packages:
+    - mono-complete
+    - unzip
+        
+#
+# https://github.com/Pryaxis/TShock/releases/download/v4.3.26/tshock_4.3.26.zip
+#
+tshock_url: "https://github.com/Pryaxis/TShock/releases/download/"
+tshock_version: "4.3.26"
+tshock_filename: "tshock_{{ tshock_version }}.zip"
+tshock_download: "{{ tshock_url }}/v{{ tshock_version }}/{{ tshock_filename }}"

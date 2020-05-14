@@ -3,11 +3,10 @@
 
 - name: terraria server required packages (apt)
   apt:
-    name: "{{ item }}"
+    name: "{{ terraria_server_packages }}"
     state: "present"
-  with_items:
-    - mono-complete
-    - unzip
+    install_recommends: no
+    force_apt_get: yes
   tags: terraria-server
 
 - name: create terraria server user
