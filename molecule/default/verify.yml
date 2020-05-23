@@ -29,7 +29,8 @@
       debug:
         msg: "terraria_server_packages {{ terraria_server_packages }}"
 
-    - stat:
+    - name: find /etc/motd
+      stat:
         path: /etc/motd
       register: motd
 
