@@ -2,12 +2,16 @@
 # tasks file for roles/terraria-server
 
 - name: gather OS specific variables
-  include_vars: "{{ item }}"
-  with_first_found:
-    - files:
+  include_vars: "{{ lookup('first_found', params) }}"
+  vars:
+    params:
+      files:
         - "{{ ansible_distribution_release }}.yml"
         - "{{ ansible_distribution }}.yml"
         - "{{ ansible_os_family }}.yml"
+        - "main.yml"
+      paths:
+        - "vars"
   tags: terraria-server
 
 - name: terraria server required packages (apt)
