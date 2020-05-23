@@ -1,12 +1,29 @@
 ---
 # tasks file for roles/terraria-server
 
+- name: gather OS specific variables
+  include_vars: "{{ lookup('first_found', params) }}"
+  vars:
+    params:
+      files:
+        - "{{ ansible_distribution_release }}.yml"
+        - "{{ ansible_distribution }}.yml"
+        - "{{ ansible_os_family }}.yml"
+        - "main.yml"
+      paths:
+        - "vars"
+  tags: terraria-server
+
 - name: terraria server required packages (apt)
   apt:
     name: "{{ terraria_server_packages }}"
     state: "present"
-    install_recommends: no
-    force_apt_get: yes
+    install_recommends: true
+    update_cache: true
+    cache_valid_time: 3600
+    force_apt_get: true
+    autoremove: true
+    autoclean: true
   tags: terraria-server
 
 - name: create terraria server user
@@ -28,14 +45,6 @@
     group: "tshock"
     mode: "2755"
   tags: terraria-server
-  
-- name: download tshock
-  get_url:
-    url: "{{ tshock_download }}"
-    dest: "/tmp"
-    mode: "0644"
-  become: no
-  tags: terraria-server
 
 - name: create tshock server home
   file:
@@ -45,41 +54,38 @@
     group: "tshock"
     mode: "2755"
   tags: terraria-server
-    
-- name: unzip tshock
+
+- name: download tshock
+  get_url:
+    url: "{{ tshock_download }}"
+    dest: "/var/tshock"
+    sha256sum: "{{ tshock_sha256sum }}"
+    mode: "0644"
+  register: download
+  tags: terraria-server
+
+- debug:
+    msg: "download: {{ download }}"
+  tags: terraria-server
+
+- name: expand tshock zip file # noqa 503
   unarchive:
-    src: "/tmp/{{ tshock_filename }}"
+    src: "/var/tshock/{{ tshock_filename }}"
     dest: "/usr/local/games/tshock/"
     copy: "no"
     owner: "tshock"
     group: "tshock"
-  tags: terraria-server
-  
-- name: fix tshock file permissions
-  file:
-    path: "/usr/local/games/tshock/{{ item.src }}"
-    owner: "{{ item.owner}}"
-    group: "{{ item.group }}"
-    mode: "{{ item.mode }}"
-  with_items:
-    - { src: 'GeoIP.dat',           owner: 'tshock', group: 'tshock', mode: '0644' }
-    - { src: 'Newtonsoft.Json.dll', owner: 'tshock', group: 'tshock', mode: '0644' }
-    - { src: 'OTAPI.dll',           owner: 'tshock', group: 'tshock', mode: '0644' }
-    - { src: 'ServerPlugins',       owner: 'tshock', group: 'tshock', mode: '2755' }
-    - { src: 'TerrariaServer.exe',  owner: 'tshock', group: 'tshock', mode: '0755' }
-    - { src: 'sqlite3.dll',         owner: 'tshock', group: 'tshock', mode: '0644' }
+  when:
+    - download.changed
+  register: unarchive
+  notify:
+    - "new release"
   tags: terraria-server
 
-- name: fix tshock file permissions (sub-directories)
-  file:
-    path: "/usr/local/games/tshock/ServerPlugins/{{ item.src }}"
-    owner: "{{ item.owner}}"
-    group: "{{ item.group }}"
-    mode: "{{ item.mode }}"
-  with_items:
-    - { src: 'BCrypt.Net.dll',       owner: 'tshock', group: 'tshock', mode: '0644' }
-    - { src: 'HttpServer.dll',       owner: 'tshock', group: 'tshock', mode: '0644' }
-    - { src: 'Mono.Data.Sqlite.dll', owner: 'tshock', group: 'tshock', mode: '0644' }
-    - { src: 'MySql.Data.dll',       owner: 'tshock', group: 'tshock', mode: '0644' }
-    - { src: 'TShockAPI.dll',        owner: 'tshock', group: 'tshock', mode: '0644' }
+- name: tweak motd
+  blockinfile:
+    block: "{{ lookup('file', 'files/motd.txt') }}"
+    dest: /etc/motd
+    create: true
+  when: tweak_motd
   tags: terraria-server

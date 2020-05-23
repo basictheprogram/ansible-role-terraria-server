@@ -3,8 +3,9 @@
 #
 terraria_server_packages:
     - mono-complete
+    - screen
     - unzip
-        
+
 #
 # https://github.com/Pryaxis/TShock/releases/download/v4.3.26/tshock_4.3.26.zip
 #
@@ -12,3 +13,7 @@ tshock_url: "https://github.com/Pryaxis/TShock/releases/download/"
 tshock_version: "4.3.26"
 tshock_filename: "tshock_{{ tshock_version }}.zip"
 tshock_download: "{{ tshock_url }}/v{{ tshock_version }}/{{ tshock_filename }}"
+tshock_sha256sum: "958a5701988b476a998ff79534f71eeac3f1a3650929b281e6e5ff0fb1a14f9b"
+
+# Helpful infomation put into MOTD
+tweak_motd: true

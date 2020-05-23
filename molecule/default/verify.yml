@@ -1,0 +1,52 @@
+---
+# This is an example playbook to execute Ansible tests.
+- hosts: all
+  gather_facts: yes
+
+- name: Verify
+  hosts: all
+  vars:
+    tweak_motd: true
+
+  tasks:
+    - name: Example assertion
+      assert:
+        that: true
+
+    - name: Testing
+      debug:
+        msg: "Bob's debugging"
+
+    - name: include_vars
+      include_vars:
+        dir: ../../defaults
+
+    - name: tweak_motd
+      debug:
+        msg: "Magic! {{ tweak_motd }}"
+
+    - name: terraria_server_packages
+      debug:
+        msg: "terraria_server_packages {{ terraria_server_packages }}"
+
+    - name: find /etc/motd
+      stat:
+        path: /etc/motd
+      register: motd
+
+    - debug:
+        msg: "found it!"
+      when: motd.stat.exists
+
+    - name: Gather the package facts
+      package_facts:
+        manager: auto
+
+    - name: Package facts
+      debug:
+        msg: "{{ ansible_facts.packages }}"
+
+    - name: Check if packages are installed
+      debug:
+        msg: "{{ item }}"
+      loop: "{{ terraria_server_packages }}"
