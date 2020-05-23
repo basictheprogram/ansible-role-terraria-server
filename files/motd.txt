@@ -1,0 +1,7 @@
+
+$ screen
+$ cd /usr/local/games/tshock/
+$ MONO_THREADS_PER_CPU=50 mono --server TerrariaServer.exe -worldpath '/var/tshock/My Games/Terraria/Worlds' -world <file.wld>
+
+http://bit.ly/2YusF6A
+group addperm guest tshock.world.editspawn
