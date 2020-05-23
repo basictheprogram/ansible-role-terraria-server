@@ -1,7 +1,10 @@
 ---
 - name: Converge
   hosts: all
-  tasks:
-    - name: "Include terraria-servers"
-      include_role:
-        name: "terraria-servers"
+
+  vars:
+    tshock_version: "4.3.26"
+    teak_motd: true
+
+  roles:
+    - { role: basictheprogram.terraria-server, become: true }
