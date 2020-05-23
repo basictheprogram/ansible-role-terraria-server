@@ -1,6 +1,6 @@
 ---
 name: CI
-"on":
+on:
   pull_request:
   push:
     branches:
@@ -10,12 +10,11 @@ name: CI
 jobs:
   test:
     name: Molecule
-    runs-on: ubuntu-latest
     strategy:
       matrix:
-        distro:
-          - ubuntu20
-
+        platform:
+          - ubuntu-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Check out the codebase
         uses: actions/checkout@v2
