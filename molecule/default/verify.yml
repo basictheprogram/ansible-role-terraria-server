@@ -1,5 +1,7 @@
 ---
 # This is an example playbook to execute Ansible tests.
+- hosts: all
+  gather_facts: yes
 
 - name: Verify
   hosts: all
@@ -7,43 +9,43 @@
     tweak_motd: true
 
   tasks:
-  - name: Example assertion
-    assert:
-      that: true
+    - name: Example assertion
+      assert:
+        that: true
 
-  - name: Testing
-    debug: 
-      msg: "Bob's debugging"
+    - name: Testing
+      debug:
+        msg: "Bob's debugging"
 
-  - name: include_vars
-    include_vars: 
-      dir: ../../defaults
+    - name: include_vars
+      include_vars:
+        dir: ../../defaults
 
-  - name: tweak_motd
-    debug:
-      msg: "Magic! {{ tweak_motd }}"
+    - name: tweak_motd
+      debug:
+        msg: "Magic! {{ tweak_motd }}"
 
-  - name: terraria_server_packages
-    debug:
-      msg: "terraria_server_packages {{ terraria_server_packages }}"
+    - name: terraria_server_packages
+      debug:
+        msg: "terraria_server_packages {{ terraria_server_packages }}"
 
-  - stat:
-      path: /etc/motd 
-    register: motd
+    - stat:
+        path: /etc/motd
+      register: motd
 
-  - debug:
-      msg: "found it!"
-    when: motd.stat.exists
+    - debug:
+        msg: "found it!"
+      when: motd.stat.exists
 
-  - name: Gather the package facts
-    package_facts:
-      manager: auto
-  
-  - name: Package facts
-    debug:
-      msg: "{{ ansible_facts.packages }}"
+    - name: Gather the package facts
+      package_facts:
+        manager: auto
 
-  - name: Check if packages are installed
-    debug:
-      msg: "ansible_facts.packages['{{ item }}']"
-    loop: "{{ terraria_server_packages }}"
+    - name: Package facts
+      debug:
+        msg: "{{ ansible_facts.packages }}"
+
+    - name: Check if packages are installed
+      debug:
+        msg: "{{ item }}"
+      loop: "{{ terraria_server_packages }}"
