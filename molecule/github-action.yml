@@ -1,0 +1,24 @@
+---
+- name: GitHub Action Converge
+  hosts: all
+  become: true
+
+  vars:
+    tshock_filename: "TShock.4.4.0.Pre-release.7.Entangled.for.Terraria.1.4.0.4.zip"
+    tshock_download: "https://github.com/Pryaxis/TShock/releases/download/v4.4.0-pre7/TShock.4.4.0.Pre-release.7.Entangled.for.Terraria.1.4.0.4.zip"
+    tshock_sha256sum: "6de169186b2546b50ce5e122caeb77f30504e05a618d91909b2adc875b263b55"
+    teak_motd: true
+
+  pre_tasks:
+    - name: PRE-TASK update apt cache
+      apt:
+        update_cache: true
+        cache_valid_time: 3600
+        force_apt_get: true
+        autoremove: true
+        autoclean: true
+      changed_when: false
+      when: ansible_os_family == 'Debian'
+
+  roles:
+    - role: ansible-role-terraria-server

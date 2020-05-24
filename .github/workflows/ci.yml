@@ -5,7 +5,6 @@ on:
   push:
     branches:
       - master
-      - molecule
 
 jobs:
   test:
@@ -33,3 +32,4 @@ jobs:
           PY_COLORS: "1"
           ANSIBLE_FORCE_COLOR: "1"
           MOLECULE_DISTRO: ${{ matrix.distro }}
+          MOLECULE_PLAYBOOK: github-action.yml
