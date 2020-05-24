@@ -3,6 +3,7 @@ dependencies: []
 
 galaxy_info:
   author: basictheprogram
+  role_name: terraria-server
   description: Terraria Server
   company: Real Time Enterprises, Inc.
   license: license (BSD, MIT)
