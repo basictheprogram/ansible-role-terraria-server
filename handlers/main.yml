@@ -4,26 +4,30 @@
 - name: HANDLER - fix tshock file permissions
   file:
     path: "/usr/local/games/tshock/{{ item.src }}"
-    owner: "{{ item.owner }}"
-    group: "{{ item.group }}"
+    owner: "{{ item.owner | default('tshock') }}"
+    group: "{{ item.group | default('tshock') }}"
     mode: "{{ item.mode }}"
   with_items:
-    - { src: "GeoIP.dat", owner: "tshock", group: "tshock", mode: "0644" }
-    - {
-        src: "Newtonsoft.Json.dll",
-        owner: "tshock",
-        group: "tshock",
-        mode: "0644",
-      }
-    - { src: "OTAPI.dll", owner: "tshock", group: "tshock", mode: "0644" }
-    - { src: "ServerPlugins", owner: "tshock", group: "tshock", mode: "2755" }
-    - {
-        src: "TerrariaServer.exe",
-        owner: "tshock",
-        group: "tshock",
-        mode: "0755",
-      }
-    - { src: "sqlite3.dll", owner: "tshock", group: "tshock", mode: "0644" }
+    - { src: "BCrypt.Net.dll", mode: "0644" }
+    - { src: "BCrypt.Net.xml", mode: "0644" }
+    - { src: "GeoIP.dat", mode: "0644" }
+    - { src: "HttpServer.dll", mode: "0644" }
+    - { src: "HttpServer.pdb", mode: "0644" }
+    - { src: "HttpServer.xml", mode: "0644" }
+    - { src: "Mono.Data.Sqlite.dll", mode: "0644" }
+    - { src: "MySql.Data.dll", mode: "0644" }
+    - { src: "Newtonsoft.Json.dll", mode: "0644" }
+    - { src: "Newtonsoft.Json.xml", mode: "0644" }
+    - { src: "OTAPI.dll", mode: "0644" }
+    - { src: "OTAPI.pdb", mode: "0644" }
+    - { src: "ServerPlugins", mode: "2755" }
+    - { src: "TShockAPI.XML", mode: "0644" }
+    - { src: "TShockAPI.dll.config", mode: "0644" }
+    - { src: "TShockAPI.pdb", mode: "0644" }
+    - { src: "TerrariaServer.exe", mode: "0755" }
+    - { src: "TerrariaServer.pdb", mode: "0644" }
+    - { src: "sqlite3.def", mode: "0644" }
+    - { src: "sqlite3.dll", mode: "0644" }
   listen:
     - "new release"
   tags: terraria-server
@@ -31,20 +35,11 @@
 - name: HANDLER - fix tshock file permissions (sub-directories)
   file:
     path: "/usr/local/games/tshock/ServerPlugins/{{ item.src }}"
-    owner: "{{ item.owner }}"
-    group: "{{ item.group }}"
+    owner: "{{ item.owner | default('tshock') }}"
+    group: "{{ item.group | default('tshock') }}"
     mode: "{{ item.mode }}"
   with_items:
-    - { src: "BCrypt.Net.dll", owner: "tshock", group: "tshock", mode: "0644" }
-    - { src: "HttpServer.dll", owner: "tshock", group: "tshock", mode: "0644" }
-    - {
-        src: "Mono.Data.Sqlite.dll",
-        owner: "tshock",
-        group: "tshock",
-        mode: "0644",
-      }
-    - { src: "MySql.Data.dll", owner: "tshock", group: "tshock", mode: "0644" }
-    - { src: "TShockAPI.dll", owner: "tshock", group: "tshock", mode: "0644" }
+    - { src: "TShockAPI.dll", mode: "0644" }
   listen:
     - "new release"
   tags: terraria-server
