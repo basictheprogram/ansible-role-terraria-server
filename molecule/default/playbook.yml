@@ -1,6 +1,0 @@
-- hosts: all
-  vars:
-    tsock_version: "4.3.26"
-
-  roles:
-    - { role: basictheprogram.terraria_server, become: yes }
