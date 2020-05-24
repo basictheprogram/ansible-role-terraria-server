@@ -1,10 +1,22 @@
 ---
 - name: Converge
   hosts: all
+  become: true
 
   vars:
     tshock_version: "4.3.26"
     teak_motd: true
 
+  pre_tasks:
+    - name: PRE-TASK update apt cache
+      apt:
+        update_cache: true
+        cache_valid_time: 3600
+        force_apt_get: true
+        autoremove: true
+        autoclean: true
+      changed_when: false
+      when: ansible_os_family == 'Debian'
+
   roles:
-    - { role: basictheprogram.terraria-server, become: true }
+    - role: basictheprogram.terraria-server

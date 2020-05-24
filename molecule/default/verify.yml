@@ -42,10 +42,6 @@
       package_facts:
         manager: auto
 
-    - name: Package facts
-      debug:
-        msg: "{{ ansible_facts.packages }}"
-
     - name: Check if packages are installed
       debug:
         msg: "{{ item }}"
