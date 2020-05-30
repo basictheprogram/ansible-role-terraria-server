@@ -16,12 +16,12 @@ pipeline {
                 }
                 failure {
                     mail to: 'tanner@real-time.com'
-                    subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
+                    subject: "Failed Pipeline: ${currentBuild.fullDisplayName}"
                     body: "Something is wrong with ${env.BUILD_URL}"
                 }
                 success {
-                    slackSend channel: '#gitlab',
-                    color: 'good',
+                    slackSend channel: '#gitlab'
+                    color: 'good'
                     message: "The pipeline ${currentBuild.fullDisplayName} completed successfully."
                 }
             }
