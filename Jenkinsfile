@@ -1,7 +1,14 @@
 #!groovy
 
 pipeline {
-    agent none
+    agent {
+        label '!windows'
+    }
+
+    environment {
+        PYTHONPATH   = "${WORKSPACE}:${PYTHONPATH}"
+    }
+
     stages {
         stage('Docker Image Install') {
             agent {
@@ -9,8 +16,9 @@ pipeline {
                     image 'geerlingguy/docker-ubuntu2004-ansible:latest'
                 }
             }
+
             steps {
-                sh 'python3 -V'    
+                sh 'printenv'    
             }
         }
         stage('Check out the codebase') {
