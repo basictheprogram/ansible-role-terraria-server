@@ -5,26 +5,13 @@ pipeline {
         label '!windows'
     }
 
-    environment {
-        PYTHONPATH   = "${WORKSPACE}:${PYTHONPATH}"
-    }
-
     stages {
-        stage('Docker Image Install') {
-            agent {
-                docker { 
-                    image 'geerlingguy/docker-ubuntu2004-ansible:latest'
-                }
-            }
-
-            steps {
-                sh 'printenv'    
-            }
-        }
         stage('Check out the codebase') {
             agent any
             steps {
-                checkout scm
+                ws('basictheprogram.terraria_server')  {
+                    checkout scm
+                }
             }
         }
         stage('Install test dependencies') {
@@ -35,14 +22,21 @@ pipeline {
         }
         stage('Run molecule tests') {
             agent any
+            
+            environment {
+                PATH       = "/var/jenkins/.local/bin:${PATH}"
+                PYTHONPATH = "${WORKSPACE}"
+            }
+            
             steps {
-                sh 'ansible --version'
-                sh 'molecule tests'
+                ws('basictheprogram.terraria_server')  {
+                    sh 'molecule test'
+                }
             }
             post {
                 always {
                     echo 'One way or another, I have finished'
-                    deleteDir()
+                    cleanWs()
                 }
             }
         }
