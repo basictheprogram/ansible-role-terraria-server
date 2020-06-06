@@ -4,9 +4,9 @@
   become: true
 
   vars:
-    tshock_filename: "TShock4.4.0_Pre10_Terraria1.4.0.4.zip"
-    tshock_download: "https://github.com/Pryaxis/TShock/releases/download/v4.4-pre10/TShock4.4.0_Pre10_Terraria1.4.0.4.zip"
-    tshock_sha256sum: "5bf6af4d0541ec4af720b44cf457608771e3d957dd67cfb16ce7bded9800ef93"
+    tshock_filename: "TShock4.4.0_Pre11_Terraria1.4.0.5.zip"
+    tshock_download: "https://github.com/Pryaxis/TShock/releases/download/v4.4.0-pre11/TShock4.4.0_Pre11_Terraria1.4.0.5.zip"
+    tshock_sha256sum: "7c2254cb0aefb72b8276a016fa06b108c911a0af42f4b04b43d0d2d0ee31cd4b"
     teak_motd: true
 
   pre_tasks:
