@@ -52,3 +52,4 @@ BSD, MIT
 
 ## Author Information ##
 [Bob Tanner](https://github.com/basictheprogram)
+
