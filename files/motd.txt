@@ -5,5 +5,13 @@ $ MONO_THREADS_PER_CPU=50 mono --server TerrariaServer.exe -worldpath '/var/tsho
 
 http://bit.ly/2YusF6A
 group addperm guest tshock.world.editspawn
-
 group addperm guest tshock.ignore.removetile
+group addperm guest tshock.tp.pylon
+group addperm guest tshock.npc.startinvasion
+group addperm guest tshock.npc.spawnrate
+group addperm guest tshock.npc.spawnpets
+group addperm guest tshock.ignore.projectile
+group addperm guest tshock.npc.startdd2
+group addperm guest tshock.npc.hurttown
+group addperm guest tshock.tp.override
+group addperm guest tshock.tp.rod
