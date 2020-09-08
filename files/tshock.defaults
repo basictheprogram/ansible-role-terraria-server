@@ -1,0 +1,22 @@
+# https://www.commandlinux.com/man-page/man1/mono.1.html#lbAP
+# 
+# The maximum number of threads in the general threadpool will be 
+# 20 + (MONO_THREADS_PER_CPU * number of CPUs). The default value 
+# for this variable is 10. 
+#
+MONO_THREADS_PER_CPU=50
+
+# https://tshock.readme.io/docs
+#
+TERRARIA_SERVER="/usr/local/games/tshock/TerrariaServer.exe"
+
+# https://tshock.readme.io/docs/command-line-parameters
+#
+# Starts the server and changes the world path to a given path
+# 
+WORLDPATH='/var/tshock/My Games/Terraria/Worlds'
+
+# https://tshock.readme.io/docs/command-line-parameters
+#
+# Starts the server and immediately loads a given world file
+WORLD="Chronic2"
